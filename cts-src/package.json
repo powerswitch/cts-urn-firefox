@@ -1,0 +1,36 @@
+{
+    "name": "cts-src",
+    "title": "CTS URN Highlighter",
+    "id": "jid1-6NPUpqeiYZnrlA",
+    "description": "Finds CTS URNs on Websites an generates links",
+    "author": "Simon Vetter",
+    "license": "MPL 2.0",
+    "version": "0.1",
+    "preferences": [{
+        "name": "CTSServer",
+        "title": "CTS Server",
+        "description": "CTS Server has the CTS content",
+        "type": "string",
+        "value": "http://ctstest.informatik.uni-leipzig.de/dta/cts/cts5"
+    },
+    {
+        "name": "CTSFrontend",
+        "title": "CTS Frontend",
+        "description": "CTS Frontend is called by clicking on a CTS link",
+        "type": "string",
+        "value": "http://localhost:8002"
+    },
+    {
+        "name": "CTSRefresh",
+        "title": "Refresh time",
+        "description": "Time to refresh the local CTS list in hours",
+        "type": "integer",
+        "value": 48
+    },
+    {
+        "type": "control",
+        "label": "Refresh now",
+        "name": "refresh",
+        "title": "Refresh cached CTS list"
+    }]
+}
