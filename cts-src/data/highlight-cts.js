@@ -3,7 +3,7 @@ self.port.on("urnList", function(urnList, frontend) {
     if (doc) {
         doc = doc.innerHTML;
         newdoc = doc;
-        var regex = /urn:cts:([A-Za-z0-9\.]*:[A-Za-z0-9\.]*)(:[A-Za-z0-9\.\-]*)?/ig;
+        var regex = /urn:cts:([A-Za-z0-9\.]*:[A-Za-z0-9\.\-]*)(:[A-Za-z0-9\.\-]*)?/ig;
         var results = regex.exec(doc);
         var offset = 0;
         
@@ -16,7 +16,8 @@ self.port.on("urnList", function(urnList, frontend) {
                 
                 if (results[2] == null) results[0] += ":";
                 
-                var insert = "<a href=\"" + frontend + "?request=GetPassage&urn=" + results[0] + "\">" + results[0] + "</a>";
+                frontend = frontend.replace("@urn@", results[0]);
+                var insert = "<a href=\"" + frontend + "\">" + results[0] + "</a>";
 
                 newdoc = [
                     newdoc.slice(0, firstIndex),

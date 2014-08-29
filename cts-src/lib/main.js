@@ -15,17 +15,15 @@ function loadCTSURNs(worker) {
             var urn = xml[c].getAttribute("urn")
             if (urn && urn != "") {
                 caps.push(xml[c].getAttribute("urn"));
-                console.log(xml[c].getAttribute("urn"));
             }
         }
         storage.validURNs = caps;
         worker.port.emit("urnList", caps, sp.prefs.CTSFrontend);
-        console.log("Reload");
     }
     
     var request = new xhr.XMLHttpRequest();
     request.onload = function() { parseXML(this, worker) };
-    request.open("GET", sp.prefs.CTSServer + "?request=GetCapabilities", true);
+    request.open("GET", sp.prefs.CTSServer, true);
     request.send(null);  
 }
 

@@ -1,0 +1,8 @@
+== BUILD ==
+* Get the Mozilla SDK working
+* change to the cts-src dir
+* activate SDK
+* run "cfx run" to test add on
+
+== INSTALL ==
+* just install the xpi package
