@@ -11,14 +11,14 @@
         "title": "CTS Server",
         "description": "CTS Server has the CTS content",
         "type": "string",
-        "value": "http://ctstest.informatik.uni-leipzig.de/dta/cts/cts5?request=GetCapabilities"
+        "value": "http://localhost:8000?request=GetCapabilities"
     },
     {
         "name": "CTSFrontend",
         "title": "CTS Frontend",
         "description": "CTS Frontend is called by clicking on a CTS link. @urn@ is replaced by the cts:urn:",
         "type": "string",
-        "value": "http://localhost:8002?request=GetPassage&urn=@urn@"
+        "value": "http://localhost:8000?request=GetPassage&urn=@urn@"
     },
     {
         "name": "CTSRefresh",
