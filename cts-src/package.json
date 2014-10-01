@@ -29,8 +29,15 @@
     },
     {
         "type": "control",
-        "label": "Refresh now",
+        "label": "Schedule refresh",
         "name": "refresh",
-        "title": "Refresh cached CTS list"
+        "title": "Refresh cached CTS list as soon as the next new page is loading"
+    },
+    {
+        "description": "Cached CTS list entries (read only)",
+        "type": "integer",
+        "name": "entrycounter",
+        "value": 0,
+        "title": "Cached entries"
     }]
 }

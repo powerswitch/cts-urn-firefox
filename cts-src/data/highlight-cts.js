@@ -1,49 +1,55 @@
-self.port.on("urnList", function(urnList, frontend) {
-    var doc = document.body;
-    if (doc) {
-        doc = doc.innerHTML;
-        newdoc = doc;
-        var regex = /urn:cts:([A-Za-z0-9\.]*:[A-Za-z0-9\.\-]*)(:[A-Za-z0-9\.\-]*)?/ig;
-        var results = regex.exec(doc);
-        var offset = 0;
-        
-        while (results && results.length > 2) {
-            var index = urnList.indexOf("urn:cts:"+results[1]+":");
-            if (index != -1) {
-                var length = results[0].length;
-                var lastIndex = regex.lastIndex + offset;
-                var firstIndex = lastIndex - length;
-                
-                if (results[2] == null) results[0] += ":";
-                
-                frontend = frontend.replace("@urn@", results[0]);
-                var insert = "<a href=\"" + frontend + "\">" + results[0] + "</a>";
+function CTSHighlighter(urnList, frontend) {
+    this.urnList = urnList;
+    this.frontend = frontend;
 
-                newdoc = [
-                    newdoc.slice(0, firstIndex),
-                    insert,
-                    newdoc.slice(lastIndex)
-                ].join('');
-                
-                offset += insert.length - length;
-            } else {
-                var length = results[0].length;
-                var lastIndex = regex.lastIndex + offset;
-                var firstIndex = lastIndex - length;
-                
-                var insert = "<a title=\"Reference not in database\">" + results[0] + "</a>";
-
-                newdoc = [
-                    newdoc.slice(0, firstIndex),
-                    insert,
-                    newdoc.slice(lastIndex)
-                ].join('');
-                
-                offset += insert.length - length;
-            }
-            results = regex.exec(doc);            
-        }
-        document.body.innerHTML = newdoc;
+    this.insertLink = function(match) {
+        var link = document.createElement('a');
+        link.setAttribute('href', this.frontend.replace("@urn@", match)+":");
+        link.appendChild(document.createTextNode(match.replace(/urn:cts:/i, "")));
+        this.activeNode.parentNode.appendChild(link);
     }
-});
+    
+    this.matchInList = function(match) {
+        var i;
+        for (i = 0; i < this.urnList.length; i++) {
+            var entry = this.urnList[i];
+            if (entry.substr(0,match.length) == match) {
+                return true;
+            }
+        }
+        return false;
+    }    
+    
+    this.replaceCTS = function(match) {
+        console.log(match);
+        if (this.matchInList(match)) {
+            insertLink(match);
+            return "urn:cts:";
+        }
+        
+        return match;
+    }
+    
+    this.findCTS = function(node) {
+        if (node.nodeValue && node.nodeValue != "") {
+            this.activeNode = node;
+            node.nodeValue = node.nodeValue.replace(/urn:cts:([A-Za-z0-9\.]*:[A-Za-z0-9\.\-]*)(:[A-Za-z0-9\.\-]*)?/ig, this.replaceCTS)
+        }
+    }    
+    
+    this.getNodeChildren = function(node) {
+        var i;
+        for (i = 0; i < node.childNodes.length; i++)
+        {
+            this.findCTS(node.childNodes[i]);
+            this.getNodeChildren(node.childNodes[i]);
+        }
+    }
 
+    if (document.body) {
+        this.getNodeChildren(document.body);
+    }
+    
+}
+
+self.port.on("urnList", CTSHighlighter);

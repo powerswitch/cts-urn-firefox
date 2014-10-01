@@ -18,6 +18,7 @@ function loadCTSURNs(worker) {
             }
         }
         storage.validURNs = caps;
+        sp.prefs.entrycounter = caps.length;
         worker.port.emit("urnList", caps, sp.prefs.CTSFrontend);
     }
     
@@ -44,4 +45,9 @@ pageMod.PageMod({
 
 sp.on("refresh", function() {
     delete storage.lastDate;
+    sp.prefs.entrycounter = 0;
+});
+
+sp.on("entrycounter", function() {
+    sp.prefs.entrycounter = storage.validURNs.length;
 });
